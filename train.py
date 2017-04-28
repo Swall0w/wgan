@@ -1,4 +1,5 @@
 import argparse
+from model import Generator, Critic
 def arg():
     parser = argparse.ArgumentParser()
     parser.add_argument('--batch','-b',type=int,default=100,help='number of minibatch')
@@ -11,6 +12,15 @@ def arg():
 
 def main():
     args = arg()
+    generator = Generator()
+    critic = Critic()
+
+    if args.gpu >= 0:
+        chainer.cuda.get_device(args.gpu).use()
+        generator.to_gpu()
+        critic.to_gpu()
+
+
 
 if __name__ == '__main__':
     main()
