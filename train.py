@@ -5,6 +5,7 @@ from chainer.training import extensions
 from chainer.dataset import iterator
 from chainer.dataset import convert
 from model import Generator, Critic
+from util import WGANUpdater, WeightClipping
 def arg():
     parser = argparse.ArgumentParser()
     parser.add_argument('--batch','-b',type=int,default=100,help='number of minibatch')
@@ -32,13 +33,13 @@ def main():
     op_c = optimizers.RMSprop(5e-5)
     op_c.setup(critic)
     op_c.add_hook(chainer.optimizer.GradientClipping(1))
-#    op_c.add_hook(WeightClipping(0.01))
+    op_c.add_hook(WeightClipping(0.01))
 
     train, test = chainer.datasets.get_mnist(ndim=3,withlabel=False)
     train_iter = chainer.iterators.SerialIterator(train, args.batch)
 
     updater = WGANUpdater(train_iter, generator, critic, 5, op_g, op_c, device=args.gpu)
-    trainer = training.Trainer(updater, (args.epoch,'epoch'),out=args.out)
+    trainer = training.Trainer(updater, (args.epoch,'epoch'),out=args.output)
 
 
 if __name__ == '__main__':
