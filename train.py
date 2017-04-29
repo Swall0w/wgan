@@ -21,7 +21,7 @@ def out_gen_image(generator, H, W, rows, cols, dst):
     def make_image(trainer):
         n_images = rows * cols
         xp = generator.xp
-        z = xp.random.randn(n_images, 1, H/4, W/4).astype(xp.float32)
+        z = xp.random.randn(n_images, 1, int(H/4), int(W/4)).astype(xp.float32)
         x = generator(z, test = True)
         x = chainer.cuda.to_cpu(x.data)
 
