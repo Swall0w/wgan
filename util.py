@@ -13,16 +13,16 @@ class WGANUpdater(training.StandardUpdater):
         self._optimizers = {'generator':op_g,'critic':op_c}
         self.device = device
         self.converter = convert.concat_examples
-        self.itrtn = 0
+        self.iteration = 0
 
     def update_core(self):
-        batch = self._itrs['main'].next()
+        batch = self._iterators['main'].next()
         images = self.converter(batch, self.device)
         batchsize = images.shape[0]
         H, W = images.shape[2], images.shape[3]
         xp = chainer.cuda.get_array_module(images)
 
-        z = xp.random.normal(size=(batchsize, 1, H/4, W/4).astype(xp.float32))
+        z = xp.random.normal(size=(batchsize, 1, H/4, W/4)).astype(xp.float32)
         generated = self.generator(z)
 
         real_y = self.critic(images)
@@ -36,12 +36,12 @@ class WGANUpdater(training.StandardUpdater):
         loss_critic.backward()
         self._optimizers['critic'].update()
 
-        if self.itrtn < 2500 and self.itrtn % 100 == 0:
+        if self.iteration < 2500 and self.iteration % 100 == 0:
             self.generator.cleargrads()
             loss_generator.backward()
             self._optimizers['generator'].update()
 
-        if self.itrtn > 2500 and self.itrtn % self.num == 0:
+        if self.iteration > 2500 and self.iteration % self.num == 0:
             self.generator.cleargrads()
             loss_generator.backward()
             self._optimizers['generator'].update()

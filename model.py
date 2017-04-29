@@ -1,5 +1,5 @@
 import chainer 
-import chainer.function as F
+import chainer.functions as F
 import chainer.links as L
 
 class Generator(chainer.Chain):
