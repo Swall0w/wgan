@@ -22,7 +22,7 @@ class WGANUpdater(training.StandardUpdater):
         H, W = images.shape[2], images.shape[3]
         xp = chainer.cuda.get_array_module(images)
 
-        z = xp.random.normal(size=(batchsize, 1, H/4, W/4)).astype(xp.float32)
+        z = xp.random.normal(size=(batchsize, 1, int(H/4), int(W/4))).astype(xp.float32)
         generated = self.generator(z)
 
         real_y = self.critic(images)
