@@ -1,4 +1,6 @@
 import argparse
+import numpy as np
+from PIL import Image
 import chainer
 from chainer import optimizers, training
 from chainer.training import extensions
