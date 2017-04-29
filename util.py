@@ -1,11 +1,12 @@
 import chainer
-from chainer.dataset import iterator, convert
 from chainer import training
+from chainer.dataset import iterator as itr_module
+from chainer.dataset import convert
 class WGANUpdater(training.StandardUpdater):
-    def __init__(self,itr, generator,critic, num, op_g, op_c, device):
-        if isinstance(itr, iterator.Iterator):
-            itr = {'main':itr}
-        self._itrs = itr
+    def __init__(self,iterator, generator,critic, num, op_g, op_c, device):
+        if isinstance(iterator, itr_module.Iterator):
+            iterator = {'main': iterator}
+        self._iterators = iterator
         self.generator = generator
         self.critic = critic
         self.num = num
