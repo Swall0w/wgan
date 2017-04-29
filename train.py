@@ -27,7 +27,7 @@ def out_gen_image(generator, H, W, rows, cols, dst):
         x = generator(z, test = True)
         x = chainer.cuda.to_cpu(x.data)
 
-        x = np.array(np.clip(x * 255, 0.0, 255.0),dtype=np.unit8)
+        x = np.asarray(np.clip(x * 255, 0.0, 255.0),dtype=np.uint8)
         channels = x.shape[1]
         x = x.reshape((rows, cols, channels, H, W))
         x = x.transpose(0,3,1,4,2)
