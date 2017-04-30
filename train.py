@@ -72,7 +72,7 @@ def main():
     trainer.extend(extensions.LogReport())
 #    trainer.extend(extensions.PlotReport(['wasserstein distance'],'epoch', file_name = 'distance.png'))
 #    trainer.extend(extensions.PlotReport(['epoch','wasserstein distance','loss/generator','elapsed_time']))
-    trainer.extend(extensions.PrintReport())
+    trainer.extend(extensions.PrintReport(['epoch','wasserstein distance','loss/generator','elapsed_time']))
     trainer.extend(extensions.ProgressBar())
     trainer.extend(out_gen_image(generator,28,28,5,5,args.output),trigger=(1,'epoch'))
 
